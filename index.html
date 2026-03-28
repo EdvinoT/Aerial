@@ -42,7 +42,30 @@
 			</div>
 		</div>
 		<script>
-			window.onload = function() { document.body.classList.remove('is-preload'); }
+			window.onload = function() {
+				document.body.classList.remove('is-preload');
+				var bgImages = [
+					'images/bg1.png',
+					'images/bg2.png',
+					'images/bg3.jpg',
+					
+				];
+				var index = 0;
+				try {
+					index = parseInt(localStorage.getItem('backgroundIndex') || '0', 10);
+				} catch (e) {
+					index = 0;
+				}
+				var bg = bgImages[index % bgImages.length];
+				try {
+					localStorage.setItem('backgroundIndex', (index + 1) % bgImages.length);
+				} catch (e) {}
+				var bgDiv = document.getElementById('bg');
+				if (bgDiv) {
+					bgDiv.style.backgroundImage = 'url("' + bg + '")';
+					window.setTimeout(function() { bgDiv.classList.add('loaded'); }, 20);
+				}
+			}
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
 		</script>
